@@ -1,37 +1,30 @@
-## Welcome to GitHub Pages
+## VLC-Android Work towards adding automated testing
 
-You can use the [editor on GitHub](https://github.com/Skantes/GSoC-2019/edit/master/index.md) to maintain and preview the content for your website in Markdown files.
+During the summer 2019, I participated in the Google Summer of Code program with the VideoLAN non profit.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+### Context
 
-### Markdown
+VLC-Android uses a project called Medialibrary to handle file indexing and all subsequent querries to these files.
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+The Medialibrary is a C++ program, which is not out of the box usable on Android. To use if you have to make a JNI Wrapper (Java Native Interface), which is code that connects C to Java, and a java wrapper to call the JNI methods.
+In short this part of VLC-Android is called the Medialibrary Wrapper.
 
-```markdown
-Syntax highlighted code block
+### The mission
 
-# Header 1
-## Header 2
-### Header 3
+I was asked to abstract all classes in the wrapper that called native code (that called the medialibrary through JNI), so that I could add a stub of the Medialibrary for testing purposes.
 
-- Bulleted
-- List
+There are three kind of automated tests in Android:
+- Unit tests, they run on you computer in a VM, and method logic
+- Integration tests, they run on a device or in a VM, an test the interactions between components of your app
+- UI tests, they test the ui by navigating the app, pressing buttons, checking that elements are present, etc...
 
-1. Numbered
-2. List
+To test VLC-Android on a VM when the Medialibrary is involved, we would need to load files so that it could work, and that would take time and space, hence not practicle.
+Because of that a stub, with a behaviour consistent with the medialibrary greatly simplifies automated testing for this projects.
 
-**Bold** and _Italic_ and `Code` text
+### The work
 
-[Link](url) and ![Image](src)
-```
+My work on this can be resumed to a few merge requests on VideoLAN's gitlab, you can find them below:
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+https://code.videolan.org/videolan/vlc-android/merge_requests/136
 
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/Skantes/GSoC-2019/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+https://code.videolan.org/videolan/vlc-android/merge_requests/217
